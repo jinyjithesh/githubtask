@@ -1,9 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Header } from "../../components/header/Header";
-import { bootstrap } from "bootstrap";
-import { useLocation } from "react-router-dom";
 import "./list.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -31,13 +28,11 @@ export const List = () => {
   }, []);
 useEffect(()=>{})
   const aut = [];
-
   for (let i = 0; i < profile.length; i++) {
     const item = profile[i].author;
     console.log("item", item);
     aut.push(item);
   }
-  
   console.log("aut", aut);
 
   return (
@@ -52,23 +47,10 @@ useEffect(()=>{})
               type="text"
               placeholder="Search or jump to ...."
               onChange={(e) => setQuery(e.target.value)}
-            
             />
           </div>
-          <span>
-            {" "}
-            {/* <button className="serInput1">/</button> */}
-            {/* <input className="serInput1" type="text" placeholder="/" /> */}
-          </span>
         </div>
-        {/* <input
-          type="text"
-          placeholder="Search or jump to ...."
-          onChange={(e) => setQuery(e.target.value)}
-        /> */}
       </div>
-      {/* <Header type="flight" /> */}
-
       <div>
         <span>
           <h>{total.total_count}(ms)</h>
@@ -77,7 +59,8 @@ useEffect(()=>{})
           <button className="button">. . .</button>
         </span>
       </div>
-      {aut
+      { loading ? (<div>loading..</div>      
+            ) :(aut
         .filter((author) => {
           if (setQuery === "") {
             return author;
@@ -89,32 +72,19 @@ useEffect(()=>{})
         })
         .map((author) => (
           <div className="Container">
-            <ul key={author.id}>
-           
+            <ul key={author?.id}>
               <h4>
-              <Avatar  facebookId="100008343750912" size="20"  src={author.avatar_url} /> {author?.login}/{author?.node_id}
+              <Avatar  facebookId="100008343750912" size="20"  src={author?.avatar_url} /> {author?.login}/{author?.node_id}
               </h4>
               <p>{author?.avatar_url}</p>
               <p>{author?.html_url}</p>
-              <p>{author.type}</p>
+              <p>{author?.type}</p>
               <li>{author?.id}</li>
               {/* <a href={author.url}>{author.url}</a> */}
             </ul>
           </div>
-        ))}
-      <table>
-        <thead></thead>
-        <tbody>
-          {aut.map((author) => (
-            <tr key={author.id}>
-              <td>{author?.id}</td>
-              <td>{author?.login}</td>
-              <td>{author?.avatar_url}</td>
-              <td>{/* <a href={author.url}>{author.url}</a> */}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        )))}
+      
     </div>
   );
 };
